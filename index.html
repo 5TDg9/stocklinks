@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISIN Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .links {
+            margin-top: 30px;
+        }
+        .link {
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>ISIN Link Generator</h1>
+    <p>Gib eine ISIN ein, um Links zu generieren:</p>
+    <input type="text" id="isin" placeholder="ISIN eingeben">
+    <button onclick="generateLinks()">Links generieren</button>
+    <div class="links" id="links"></div>
+
+    <script>
+        function generateLinks() {
+            const isin = document.getElementById('isin').value.trim();
+            if (isin === '') {
+                alert('Bitte geben Sie eine ISIN ein.');
+                return;
+            }
+            const baseUrls = {
+                'Yahoo Finance': `https://finance.yahoo.com/quote/${isin}`,
+                'Google Finance': `https://www.google.com/finance/quote/${isin}`,
+                'MarketWatch': `https://www.marketwatch.com/investing/stock/${isin}`,
+                'Bloomberg': `https://www.bloomberg.com/quote/${isin}`
+            };
+
+            const linksDiv = document.getElementById('links');
+            linksDiv.innerHTML = '';
+
+            for (const [site, url] of Object.entries(baseUrls)) {
+                const linkElement = document.createElement('a');
+                linkElement.href = url;
+                linkElement.target = '_blank';
+                linkElement.className = 'link';
+                linkElement.textContent = `Zu ${site} für ${isin}`;
+                linksDiv.appendChild(linkElement);
+            }
+        }
+    </script>
+</body>
+</html>
